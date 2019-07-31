@@ -29,6 +29,15 @@ int ListItem_setData(ListItem_t *this, void *data) {
     return 0;
 }
 
+void * ListItem_getData(ListItem_t *this) {
+    if (this == NULL) {
+        Log_msg("this is NULL");
+        return NULL;
+    }
+
+    return this->data;
+}
+
 //---------------------------------------------------------
 
 List_t * List_create() {
@@ -84,7 +93,7 @@ int List_insert(List_t *this, ListItem_t *item) {
     return 0;
 }
 
-int List_remove(List_t *this, ListItem_t *item) {
+int List_removeItem(List_t *this, ListItem_t *item) {
     ListItem_t *iter;
 
     if (this == NULL) {
@@ -120,5 +129,61 @@ int List_remove(List_t *this, ListItem_t *item) {
     }
 
     return 1;
+}
+
+ListItem_t * List_removeItemByIndex(List_t *this, unsigned int index) {
+    ListItem_t *iter;
+    int i;
+
+    if (this == NULL) {
+        Log_msg("this is NULL");
+        return NULL;
+    }
+
+    if (index >= this->length) {
+        Log_msg("index out of bounds");
+        return NULL;
+    }
+
+    //TODO: We could optimize a bit checking if we are closer starting from
+    // the tail.
+    for (i = 0, iter = this->head; i < index; i++, iter = iter->next);
+
+    if (iter->prev != NULL) {
+        iter->prev->next = iter->next;
+    } else {
+        this->head = iter->next;
+    }
+
+    if (iter->next != NULL) {
+        iter->next->prev = iter->prev;
+    } else {
+        this->tail = iter->prev;
+    }
+
+    iter->prev = iter->next = NULL;
+    this->length--;
+    return iter;
+}
+
+ListItem_t * List_getItem(List_t *this, unsigned int index) {
+    ListItem_t *iter;
+    int i;
+
+    if (this == NULL) {
+        Log_msg("this is NULL");
+        return NULL;
+    }
+
+    if (index >= this->length) {
+        Log_msg("index %d out of bounds", index);
+        return NULL;
+    }
+
+    //TODO: We could optimize a bit checking if we are closer starting from
+    // the tail.
+    for (i = 0, iter = this->head; i < index; iter = iter->next, i++);
+
+    return iter;
 }
 

@@ -31,6 +31,14 @@ void ListItem_destroy(ListItem_t *this);
  */
 int ListItem_setData(ListItem_t *this, void *data);
 
+/**
+ * Get the data contained in this item.
+ *
+ * @this: The ListItem_t from where to get the data.
+ * @return: A pointer to the data contained or NULL.
+ */
+void * ListItem_getData(ListItem_t *this);
+
 //----------------------------------------------------------
 
 typedef struct list {
@@ -75,7 +83,25 @@ int List_insert(List_t *this, ListItem_t *item);
  * @item: The item to remove from the list.
  * @return: 0 if the item was successfully removed, 1 otherwise.
  */
-int List_remove(List_t *this, ListItem_t *item);
+int List_removeItem(List_t *this, ListItem_t *item);
+
+/**
+ * Remove an element from the list based on index. Use with caution.
+ *
+ * @this: The list from where to remove the element.
+ * @index: The index of the item to remove.
+ * @return: A pointer to the element removed from the list or NULL.
+ */
+ListItem_t * List_removeItemByIndex(List_t *this, unsigned int index);
+
+/**
+ * Get an item from the list.
+ *
+ * @this: The list from where to get the item.
+ * @index: The index of the item we want to get.
+ * @return: A pointer to the item or NULL.
+ */
+ListItem_t * List_getItem(List_t *this, unsigned int index);
 
 #endif
 
