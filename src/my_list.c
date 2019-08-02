@@ -65,7 +65,7 @@ unsigned int List_size(List_t *this) {
     return 0;
 }
 
-int List_insert(List_t *this, ListItem_t *item) {
+int List_insertItem(List_t *this, ListItem_t *item) {
     if (this == NULL) {
         Log_msg("this is NULL");
         return 1;
@@ -90,6 +90,43 @@ int List_insert(List_t *this, ListItem_t *item) {
     }
 
     this->length++;
+    return 0;
+}
+
+int List_insertData(List_t *this, void *data) {
+    ListItem_t *item;
+    int err;
+
+    if (this == NULL) {
+        Log_msg("this is NULL");
+        return 1;
+    }
+
+    if (data == NULL) {
+        Log_msg("data is NULL");
+        return 1;
+    }
+
+    item = ListItem_create();
+    if (item == NULL) {
+        Log_msg("Couldn't create new ListItem");
+        return 1;
+    }
+
+    err = ListItem_setData(item, data);
+    if (err) {
+        Log_msg("Couldn't set data in the item");
+        ListItem_destroy(item);
+        return 1;
+    }
+
+    err = List_insertItem(this, item);
+    if (err) {
+        Log_msg("Couldn't insert item into list");
+        free(item);
+        return 1;
+    }
+
     return 0;
 }
 
@@ -131,7 +168,7 @@ int List_removeItem(List_t *this, ListItem_t *item) {
     return 1;
 }
 
-ListItem_t * List_removeItemByIndex(List_t *this, unsigned int index) {
+ListItem_t * List_removeByIndex(List_t *this, unsigned int index) {
     ListItem_t *iter;
     int i;
 

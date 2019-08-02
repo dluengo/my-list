@@ -68,13 +68,22 @@ void List_destroy(List_t *this);
 unsigned int List_size(List_t *this);
 
 /**
- * Insert an element into the list. Use with caution.
+ * Insert an item into the list. Use with caution.
  *
  * @this: The list to where insert the element.
  * @item: The item to insert in the list.
  * @return: 0 if the item was successfully inserted, 1 otherwise.
  */
-int List_insert(List_t *this, ListItem_t *item);
+int List_insertItem(List_t *this, ListItem_t *item);
+
+/**
+ * Insert some data into the list. The ListItem will be handled underneath.
+ *
+ * @this: The list to where insert the element.
+ * @data: A pointer to the data to insert.
+ * @return: 0 if the item was successfully inserted, 1 otherwise.
+ */
+int List_insertData(List_t *this, void *data);
 
 /**
  * Remove an element from the list. Use with caution.
@@ -92,7 +101,7 @@ int List_removeItem(List_t *this, ListItem_t *item);
  * @index: The index of the item to remove.
  * @return: A pointer to the element removed from the list or NULL.
  */
-ListItem_t * List_removeItemByIndex(List_t *this, unsigned int index);
+ListItem_t * List_removeByIndex(List_t *this, unsigned int index);
 
 /**
  * Get an item from the list.
@@ -102,6 +111,8 @@ ListItem_t * List_removeItemByIndex(List_t *this, unsigned int index);
  * @return: A pointer to the item or NULL.
  */
 ListItem_t * List_getItem(List_t *this, unsigned int index);
+
+//TODO: Add List method that destroy the list destroying elements.
 
 #endif
 
